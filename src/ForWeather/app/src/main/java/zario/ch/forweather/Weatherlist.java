@@ -1,7 +1,12 @@
 package zario.ch.forweather;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.NetworkOnMainThreadException;
+import android.support.annotation.WorkerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,15 +15,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Weatherlist extends AppCompatActivity {
+
+    Activity main;
+    public static Wetter wetter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weatherlist);
 
+        main = this;
         listview = (ListView) findViewById(R.id.listView);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -26,15 +43,16 @@ public class Weatherlist extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-
+                Intent i = new Intent(main, wetterort.class);
+                wetter = new Wetter("Bern", "ch", main);
+                startActivity(i);
             }
 
         });
 
-        adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<Wetter>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, listItems);
         listview.setAdapter(adapter);
-
     }
 
     public void onAddClick(View v) {
@@ -46,19 +64,19 @@ public class Weatherlist extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-                addItem("");
+                addItem(new Wetter("Zürich", "zh", main));
                 Toast.makeText(this, name,
                         Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listItems = new ArrayList<String>();
+    ArrayAdapter<Wetter> adapter;
+    ArrayList<Wetter> listItems = new ArrayList<Wetter>();
 
     public ListView listview;
-    public void addItem(String name) {
-        listItems.add(name);
+    public void addItem(Wetter wetter) {
+        listItems.add(wetter);
         adapter.notifyDataSetChanged();
     }
 }
