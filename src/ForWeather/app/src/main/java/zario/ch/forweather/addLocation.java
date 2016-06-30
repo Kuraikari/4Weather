@@ -30,4 +30,9 @@ public class addLocation extends AppCompatActivity {
         setResult(RESULT_OK,returnIntent);
         finish();
     }
+
+    public void getUserLocation()
+    {
+
+    }
 }
