@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="blue" type="color">#87c8e2</item>
+    <item name="cyan" type="color">#98f2e9</item>
+    <item name="purple" type="color">#a561ff</item>
+    <item name="turqoise" type="color">#53ffc0</item>
+
+    <integer-array name="colorsofblue">
+        <item>@color/blue</item>
+        <item>@color/cyan</item>
+        <item>@color/purple</item>
+        <item>@color/turqoise</item>
+    </integer-array>
+
     <color name="colorPrimary">#32A0FF</color>
     <color name="colorPrimaryDark">#2174EC</color>
     <color name="colorAccent">#FF4081</color>
